@@ -18,13 +18,18 @@ var (
 	ErrInvalidDiagnosis = errors.NewWrongInput("diagnosis must be at least 10 characters")
 )
 
+const (
+	// TableName define diagnose table name
+	TableName = "top_doctor.diagnose"
+)
+
 // Entity hold fields of a diagnosis used for our internal use
 type Entity struct {
-	ID           int
+	ID           uuid.UUID `gorm:"type:uuid;primary_key"`
 	PatientID    uuid.UUID
 	Diagnosis    string
 	Prescription *string
-	Date         time.Time
+	CreatedAt    time.Time
 }
 
 // New returns an instance of a Patient
@@ -37,7 +42,7 @@ func New(patientID string, diagnosis string, prescription *string) (*Entity, err
 		PatientID:    id,
 		Diagnosis:    strings.TrimSpace(diagnosis),
 		Prescription: prescription,
-		Date:         time.Now(),
+		CreatedAt:    time.Now(),
 	}, nil
 }
 
@@ -51,4 +56,9 @@ func (e *Entity) Valid() error {
 	}
 
 	return nil
+}
+
+// TableName returns table name
+func (Entity) TableName() string {
+	return TableName
 }

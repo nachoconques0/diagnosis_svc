@@ -25,9 +25,14 @@ var (
 	phoneRegex      = `^\+?[0-9]{7,15}$`
 )
 
+const (
+	// TableName define patient table name
+	TableName = "top_doctor.patient"
+)
+
 // Entity holds the fields of a patient used for our internal use
 type Entity struct {
-	ID      uuid.UUID
+	ID      uuid.UUID `gorm:"type:uuid;primary_key"`
 	Name    string
 	DNI     string
 	Email   string
@@ -66,4 +71,9 @@ func (e *Entity) Valid() error {
 		}
 	}
 	return nil
+}
+
+// TableName returns table name
+func (Entity) TableName() string {
+	return TableName
 }

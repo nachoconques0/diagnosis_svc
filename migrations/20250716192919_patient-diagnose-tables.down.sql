@@ -1,0 +1,6 @@
+BEGIN;
+
+DROP TABLE IF EXISTS top_doctor.diagnose CASCADE;
+DROP TABLE IF EXISTS top_doctor.patient CASCADE;
+
+COMMIT;

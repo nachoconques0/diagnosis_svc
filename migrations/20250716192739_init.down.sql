@@ -1,0 +1,5 @@
+BEGIN;
+
+	DROP SCHEMA top_doctor CASCADE;
+
+COMMIT;

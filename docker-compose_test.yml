@@ -1,0 +1,17 @@
+services:
+  database:
+    image: postgres:15.2-alpine
+    container_name: diagnosis_svc_test
+    ports:
+      - "127.0.0.1:5435:5432"
+    environment:
+      POSTGRES_USER: diagnosis_svc
+      POSTGRES_PASSWORD: diagnosis_svc
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: diagnosis_svc
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U diagnosis_svc -d diagnosis_svc"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
