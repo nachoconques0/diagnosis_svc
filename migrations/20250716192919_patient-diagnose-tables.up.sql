@@ -16,7 +16,7 @@ CREATE TRIGGER set_updated_at
   FOR EACH ROW
   EXECUTE PROCEDURE top_doctor.set_updated_at ();
 	
-CREATE TABLE top_doctor.diagnose (
+CREATE TABLE top_doctor.diagnosis (
   id UUID PRIMARY KEY,
   patient_id UUID NOT NULL REFERENCES top_doctor.patient(id),
   diagnosis TEXT NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE top_doctor.diagnose (
 );
 
 CREATE TRIGGER set_updated_at
-  BEFORE INSERT OR UPDATE ON top_doctor.diagnose
+  BEFORE INSERT OR UPDATE ON top_doctor.diagnosis
   FOR EACH ROW
   EXECUTE PROCEDURE top_doctor.set_updated_at ();
 

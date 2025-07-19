@@ -32,7 +32,7 @@ func ProtectedHandler() gin.HandlerFunc {
 
 func verifyToken(tokenString string) error {
 	jwtKey := env.LoadOrPanic("JWT_SECRET")
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(tokenString, func(_ *jwt.Token) (interface{}, error) {
 		return []byte(jwtKey), nil
 	})
 

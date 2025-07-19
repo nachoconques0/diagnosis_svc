@@ -9,6 +9,7 @@ import (
 	"github.com/nachoconques0/diagnosis_svc/internal/errors"
 )
 
+// Repository in charge of managing User repo
 type Repository struct {
 	db *gorm.DB
 }

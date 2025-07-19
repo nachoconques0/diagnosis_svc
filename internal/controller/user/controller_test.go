@@ -30,7 +30,7 @@ func TestLoginController(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		password := "testpass"
 		hash, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-		svc.EXPECT().GetByEmail(gomock.Any(), testEmail, password).Return(&userEntity.Entity{
+		svc.EXPECT().GetByEmail(gomock.Any(), testEmail).Return(&userEntity.Entity{
 			Email:    testEmail,
 			Password: string(hash),
 			Nickname: "nacho",
@@ -55,7 +55,7 @@ func TestLoginController(t *testing.T) {
 	t.Run("invalid password", func(t *testing.T) {
 		password := "testpass"
 		hash, _ := bcrypt.GenerateFromPassword([]byte("diferenteee"), bcrypt.DefaultCost)
-		svc.EXPECT().GetByEmail(gomock.Any(), testEmail, password).Return(&userEntity.Entity{
+		svc.EXPECT().GetByEmail(gomock.Any(), testEmail).Return(&userEntity.Entity{
 			Email:    testEmail,
 			Password: string(hash),
 			Nickname: "nacho",
@@ -79,7 +79,7 @@ func TestLoginController(t *testing.T) {
 
 	t.Run("service error", func(t *testing.T) {
 		password := "any"
-		svc.EXPECT().GetByEmail(gomock.Any(), testEmail, password).Return(nil, errors.New("userNotFound"))
+		svc.EXPECT().GetByEmail(gomock.Any(), testEmail).Return(nil, errors.New("userNotFound"))
 
 		w := httptest.NewRecorder()
 		r := gin.New()

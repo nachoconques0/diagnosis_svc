@@ -30,7 +30,6 @@ func (s *Service) Create(ctx context.Context, patientID string, diag string, pre
 	if err != nil {
 		return nil, err
 	}
-
 	if err := d.Valid(); err != nil {
 		return nil, err
 	}
@@ -43,5 +42,9 @@ func (s *Service) Create(ctx context.Context, patientID string, diag string, pre
 
 // Find diagnoses based on filters
 func (s *Service) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]diagnosis.Entity, error) {
-	return s.repo.Find(ctx, filters, pagination)
+	res, err := s.repo.Find(ctx, filters, pagination)
+	if err != nil {
+		return []diagnosis.Entity{}, err
+	}
+	return res, nil
 }

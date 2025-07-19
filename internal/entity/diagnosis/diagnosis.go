@@ -19,8 +19,8 @@ var (
 )
 
 const (
-	// TableName define diagnose table name
-	TableName = "top_doctor.diagnose"
+	// TableName define diagnosis table name
+	TableName = "top_doctor.diagnosis"
 )
 
 // Entity hold fields of a diagnosis used for our internal use

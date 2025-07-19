@@ -19,18 +19,17 @@ func TestUserService_GetByEmail(t *testing.T) {
 	svc := userService.New(repo)
 	ctx := context.Background()
 	email := "nachintimetosleep@gmail.com"
-	password := "123123"
 
 	t.Run("user found", func(t *testing.T) {
-		repo.EXPECT().GetByEmail(ctx, email).Return(&userEntity.Entity{Email: email, Password: password}, nil)
-		res, err := svc.GetByEmail(ctx, email, password)
+		repo.EXPECT().GetByEmail(ctx, email).Return(&userEntity.Entity{Email: email}, nil)
+		res, err := svc.GetByEmail(ctx, email)
 		assert.NoError(t, err)
 		assert.Equal(t, email, res.Email)
 	})
 
 	t.Run("user not found", func(t *testing.T) {
 		repo.EXPECT().GetByEmail(ctx, email).Return(nil, errors.New("not found"))
-		res, err := svc.GetByEmail(ctx, email, password)
+		res, err := svc.GetByEmail(ctx, email)
 		assert.Error(t, err)
 		assert.Nil(t, res)
 	})

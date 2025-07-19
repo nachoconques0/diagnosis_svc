@@ -16,6 +16,7 @@ func (Entity) TableName() string {
 	return TableName
 }
 
+// Entity holds the fields of a user used for our internal use
 type Entity struct {
 	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
 	Nickname  string

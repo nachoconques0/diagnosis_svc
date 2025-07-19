@@ -11,6 +11,7 @@ import (
 	"github.com/nachoconques0/diagnosis_svc/internal/helpers/query"
 )
 
+// Repository in charge of managing Diagnosis repo
 type Repository struct {
 	db *gorm.DB
 }
@@ -38,7 +39,7 @@ func (r *Repository) Find(
 	var results []diagnosis.Entity
 
 	tx := r.db.WithContext(ctx).
-		Table("top_doctor.diagnose AS d").
+		Table("top_doctor.diagnosis AS d").
 		Joins("JOIN top_doctor.patient p ON p.id = d.patient_id")
 
 	if filters.PatientName != "" {
@@ -54,7 +55,7 @@ func (r *Repository) Find(
 		Limit(pagination.Limit()).
 		Offset(pagination.Offset()).
 		Find(&results).Error; err != nil {
-		return nil, errors.NewInternalError("could not find diagnoses: " + err.Error())
+		return nil, errors.NewInternalError("could not find diagnosis: " + err.Error())
 	}
 
 	return results, nil

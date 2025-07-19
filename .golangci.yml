@@ -1,0 +1,36 @@
+version: "2"
+run:
+  tests: true
+linters:
+  enable:
+    - bodyclose
+    - gocritic
+    - revive
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - errcheck
+        path: _test\.go
+      - linters:
+          - errcheck
+        path: cmd/.*
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

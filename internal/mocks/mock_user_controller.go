@@ -42,16 +42,16 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // GetByEmail mocks base method.
-func (m *MockUserService) GetByEmail(ctx context.Context, email, password string) (*user.Entity, error) {
+func (m *MockUserService) GetByEmail(ctx context.Context, email string) (*user.Entity, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetByEmail", ctx, email, password)
+	ret := m.ctrl.Call(m, "GetByEmail", ctx, email)
 	ret0, _ := ret[0].(*user.Entity)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetByEmail indicates an expected call of GetByEmail.
-func (mr *MockUserServiceMockRecorder) GetByEmail(ctx, email, password any) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) GetByEmail(ctx, email any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByEmail", reflect.TypeOf((*MockUserService)(nil).GetByEmail), ctx, email, password)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByEmail", reflect.TypeOf((*MockUserService)(nil).GetByEmail), ctx, email)
 }

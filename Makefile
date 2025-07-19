@@ -56,3 +56,8 @@ migration-test-run: ## test purposes
 .PHONY: seed
 seed:
 	go run cmd/seed/main.go
+
+.PHONY: lint
+lint:
+	@golangci-lint run ./...
+	

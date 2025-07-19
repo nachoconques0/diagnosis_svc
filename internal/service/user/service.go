@@ -19,7 +19,7 @@ func New(repo repository) *Service {
 }
 
 // GetByEmail returns an user by its email
-func (s *Service) GetByEmail(ctx context.Context, email, password string) (*user.Entity, error) {
+func (s *Service) GetByEmail(ctx context.Context, email string) (*user.Entity, error) {
 	u, err := s.repo.GetByEmail(ctx, email)
 	if err != nil {
 		return nil, err
