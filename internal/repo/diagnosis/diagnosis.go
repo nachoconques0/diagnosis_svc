@@ -34,8 +34,8 @@ func (r *Repository) Find(
 	ctx context.Context,
 	filters query.DiagnosisFilters,
 	pagination query.Pagination,
-) ([]*diagnosis.Entity, error) {
-	var results []*diagnosis.Entity
+) ([]diagnosis.Entity, error) {
+	var results []diagnosis.Entity
 
 	tx := r.db.WithContext(ctx).
 		Table("top_doctor.diagnose AS d").

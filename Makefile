@@ -5,6 +5,23 @@ mod install: export GOSUMDB=off
 migration-run: export POSTGRESQL_URL=postgresql://diagnosis_svc:diagnosis_svc@localhost:5434/diagnosis_svc?sslmode=disable
 migration-test-run: export POSTGRESQL_URL=postgresql://diagnosis_svc:diagnosis_svc@localhost:5435/diagnosis_svc?sslmode=disable
 
+.PHONY: mod
+## Install project dependencies using go mod. Usage 'make mod'
+mod:
+	@go mod tidy
+	@go mod vendor
+
+.PHONY: mock
+## Generate mock files. Usage: 'make mock'
+mock: ; $(info Generating mock files)
+	@chmod +x generate-mocks.sh 
+	@./generate-mocks.sh
+
+.PHONY: run
+## Run service. Usage: 'make run'
+run: ; $(info Starting svc...)
+	go run --tags dev ./cmd/server/.
+
 .PHONY: migration-create
 migration-create: ## Creates a new migration usage: `migration-create name=<migration name>`
 	@migrate create -dir ./migrations -ext sql $(name)
@@ -24,13 +41,10 @@ test: ; $(info running tests…) @
 	else \
 		path=$(path); \
 	fi; \
-	if [ ! -d "coverage" ]; then \
-		mkdir coverage; \
-	fi; \
 	if [ -z $(func) ]; then \
-		go test -v -failfast -covermode=count -coverprofile=./coverage/coverage.out $$path; \
+		go test -v -failfast $$path; \
 	else \
-		go test -v -failfast -covermode=count -coverprofile=./coverage/coverage.out -run $$func $$path; \
+		go test -v -failfast -run $$func $$path; \
 	fi;
 	docker compose -f ./docker-compose_test.yml down;
 

@@ -1,10 +1,8 @@
 package errors
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"log/slog"
 	"net/http"
 )
 
@@ -54,14 +52,4 @@ func NewNotFound(text string) *Error {
 // NewConflict returns a new Conflict error with the given message.
 func NewConflict(text string) *Error {
 	return &Error{http.StatusConflict, text}
-}
-
-// Encode uses the given http.ResponseWriter as a json
-// encoder to response back with the appropriate http.Status
-// and error body
-func (e Error) Encode(ctx context.Context, w http.ResponseWriter) {
-	w.WriteHeader(e.Code)
-	if err := json.NewEncoder(w).Encode(&e); err != nil {
-		slog.Error(fmt.Sprintf("error encoding json error response: %s", err))
-	}
 }
