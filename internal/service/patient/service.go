@@ -5,6 +5,7 @@ import (
 
 	"github.com/nachoconques0/diagnosis_svc/internal/entity/patient"
 	"github.com/nachoconques0/diagnosis_svc/internal/helpers/query"
+	"github.com/nachoconques0/diagnosis_svc/internal/model"
 )
 
 type Service struct {
@@ -26,8 +27,8 @@ func New(repo repository) *Service {
 }
 
 // Create validates and stores a patient
-func (s *Service) Create(ctx context.Context, name, email, dni string, phone *string, add *string) (*patient.Entity, error) {
-	p := patient.New(name, dni, email, phone, add)
+func (s *Service) Create(ctx context.Context, req model.CreatePatientRequest) (*model.PatientResponse, error) {
+	p := patient.New(req.Name, req.DNI, req.Email, req.Phone, req.Address)
 	if err := p.Valid(); err != nil {
 		return nil, err
 	}
@@ -35,14 +36,33 @@ func (s *Service) Create(ctx context.Context, name, email, dni string, phone *st
 	if err != nil {
 		return nil, err
 	}
-	return res, nil
+	return &model.PatientResponse{
+		ID:      res.ID.String(),
+		Name:    res.Name,
+		DNI:     res.DNI,
+		Email:   res.Email,
+		Phone:   res.Phone,
+		Address: res.Address,
+	}, nil
 }
 
 // Find patients and filters like name & pagination can be used
-func (s *Service) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]patient.Entity, error) {
+func (s *Service) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]model.PatientResponse, error) {
 	res, err := s.repo.Find(ctx, filters, pagination)
 	if err != nil {
-		return []patient.Entity{}, err
+		return []model.PatientResponse{}, err
 	}
-	return res, nil
+	var result []model.PatientResponse
+	if len(res) > 0 {
+		for _, v := range res {
+			result = append(result, model.PatientResponse{
+				ID:      v.ID.String(),
+				Name:    v.Name,
+				DNI:     v.DNI,
+				Email:   v.Email,
+				Phone:   v.Phone,
+				Address: v.Address})
+		}
+	}
+	return result, nil
 }

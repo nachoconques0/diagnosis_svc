@@ -8,15 +8,15 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	diagEntity "github.com/nachoconques0/diagnosis_svc/internal/entity/diagnosis"
 	"github.com/nachoconques0/diagnosis_svc/internal/errors"
 	"github.com/nachoconques0/diagnosis_svc/internal/helpers/query"
+	"github.com/nachoconques0/diagnosis_svc/internal/model"
 	"github.com/rs/zerolog/log"
 )
 
 type service interface {
-	Create(ctx context.Context, patientID string, diag string, prescription *string) (*diagEntity.Entity, error)
-	Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]diagEntity.Entity, error)
+	Create(ctx context.Context, req model.CreateDiagnosisRequest) (*model.DiagnosisResponse, error)
+	Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]model.DiagnosisResponse, error)
 }
 
 // Controller holds the required dependencies in order to implement the logic service of the diagnosis requests
@@ -31,14 +31,14 @@ func New(svc service) *Controller {
 
 // Create creates a diagnosis for an specific patient
 func (ctrl *Controller) Create(c *gin.Context) {
-	var input createDiagnosisInput
+	var input model.CreateDiagnosisRequest
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Error().Err(err).Msg(fmt.Sprintf("Create failed when ShouldBindJSON err: %s", err.Error()))
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
 		return
 	}
 
-	res, err := ctrl.svc.Create(c.Request.Context(), input.PatientID, input.Diagnosis, input.Prescription)
+	res, err := ctrl.svc.Create(c.Request.Context(), input)
 	if err != nil {
 		if appErr, ok := err.(*errors.Error); ok {
 			log.Error().Err(err).Msg(fmt.Sprintf("Create failed with err: %s", err.Error()))
@@ -83,10 +83,4 @@ func (ctrl *Controller) Find(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, res)
-}
-
-type createDiagnosisInput struct {
-	PatientID    string  `json:"patient_id" binding:"required"`
-	Diagnosis    string  `json:"diagnosis" binding:"required"`
-	Prescription *string `json:"prescription,omitempty"`
 }

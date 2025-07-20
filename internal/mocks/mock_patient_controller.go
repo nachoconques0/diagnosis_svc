@@ -13,8 +13,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	patient "github.com/nachoconques0/diagnosis_svc/internal/entity/patient"
 	query "github.com/nachoconques0/diagnosis_svc/internal/helpers/query"
+	model "github.com/nachoconques0/diagnosis_svc/internal/model"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -43,25 +43,25 @@ func (m *MockPatientService) EXPECT() *MockPatientServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockPatientService) Create(ctx context.Context, name, email, dni string, phone, add *string) (*patient.Entity, error) {
+func (m *MockPatientService) Create(ctx context.Context, req model.CreatePatientRequest) (*model.PatientResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", ctx, name, email, dni, phone, add)
-	ret0, _ := ret[0].(*patient.Entity)
+	ret := m.ctrl.Call(m, "Create", ctx, req)
+	ret0, _ := ret[0].(*model.PatientResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockPatientServiceMockRecorder) Create(ctx, name, email, dni, phone, add any) *gomock.Call {
+func (mr *MockPatientServiceMockRecorder) Create(ctx, req any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockPatientService)(nil).Create), ctx, name, email, dni, phone, add)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockPatientService)(nil).Create), ctx, req)
 }
 
 // Find mocks base method.
-func (m *MockPatientService) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]patient.Entity, error) {
+func (m *MockPatientService) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]model.PatientResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", ctx, filters, pagination)
-	ret0, _ := ret[0].([]patient.Entity)
+	ret0, _ := ret[0].([]model.PatientResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

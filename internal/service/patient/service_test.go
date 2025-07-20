@@ -11,6 +11,7 @@ import (
 	"github.com/nachoconques0/diagnosis_svc/internal/entity/patient"
 	"github.com/nachoconques0/diagnosis_svc/internal/helpers/query"
 	"github.com/nachoconques0/diagnosis_svc/internal/mocks"
+	"github.com/nachoconques0/diagnosis_svc/internal/model"
 	service "github.com/nachoconques0/diagnosis_svc/internal/service/patient"
 )
 
@@ -26,6 +27,11 @@ func TestService_Create(t *testing.T) {
 	patientTestDNI := "123123"
 	patientTestEmail := "nacho@gmail.com"
 
+	req := model.CreatePatientRequest{
+		Name:  patientTestName,
+		DNI:   patientTestDNI,
+		Email: patientTestEmail,
+	}
 	t.Run("success", func(t *testing.T) {
 		mockRepo.EXPECT().Create(gomock.Any(), gomock.Any()).Return(&patient.Entity{
 			Name:  patientTestName,
@@ -33,7 +39,7 @@ func TestService_Create(t *testing.T) {
 			Email: patientTestEmail,
 		}, nil)
 
-		res, err := svc.Create(ctx, patientTestName, patientTestEmail, patientTestDNI, nil, nil)
+		res, err := svc.Create(ctx, req)
 		assert.NoError(t, err)
 		assert.Equal(t, patientTestName, res.Name)
 	})
@@ -41,7 +47,7 @@ func TestService_Create(t *testing.T) {
 	t.Run("error from repo", func(t *testing.T) {
 		mockRepo.EXPECT().Create(gomock.Any(), gomock.Any()).Return(nil, errors.New("errFroMRepoo"))
 
-		_, err := svc.Create(ctx, patientTestName, patientTestEmail, patientTestDNI, nil, nil)
+		_, err := svc.Create(ctx, req)
 		assert.Error(t, err)
 	})
 }

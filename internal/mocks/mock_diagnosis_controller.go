@@ -13,8 +13,8 @@ import (
 	context "context"
 	reflect "reflect"
 
-	diagnosis "github.com/nachoconques0/diagnosis_svc/internal/entity/diagnosis"
 	query "github.com/nachoconques0/diagnosis_svc/internal/helpers/query"
+	model "github.com/nachoconques0/diagnosis_svc/internal/model"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -43,25 +43,25 @@ func (m *MockDiagnosisService) EXPECT() *MockDiagnosisServiceMockRecorder {
 }
 
 // Create mocks base method.
-func (m *MockDiagnosisService) Create(ctx context.Context, patientID, diag string, prescription *string) (*diagnosis.Entity, error) {
+func (m *MockDiagnosisService) Create(ctx context.Context, req model.CreateDiagnosisRequest) (*model.DiagnosisResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", ctx, patientID, diag, prescription)
-	ret0, _ := ret[0].(*diagnosis.Entity)
+	ret := m.ctrl.Call(m, "Create", ctx, req)
+	ret0, _ := ret[0].(*model.DiagnosisResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockDiagnosisServiceMockRecorder) Create(ctx, patientID, diag, prescription any) *gomock.Call {
+func (mr *MockDiagnosisServiceMockRecorder) Create(ctx, req any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDiagnosisService)(nil).Create), ctx, patientID, diag, prescription)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDiagnosisService)(nil).Create), ctx, req)
 }
 
 // Find mocks base method.
-func (m *MockDiagnosisService) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]diagnosis.Entity, error) {
+func (m *MockDiagnosisService) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]model.DiagnosisResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", ctx, filters, pagination)
-	ret0, _ := ret[0].([]diagnosis.Entity)
+	ret0, _ := ret[0].([]model.DiagnosisResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

@@ -31,7 +31,7 @@ It is available in the repo.
 1. Have docker in your machine
 2. `git clone` this repo
 3. Once you are inside the repo
-4 Run `make test` and this will trigger a docker compose file that will spin up a test DB + mgirations and then run all the needed tests. By the time of writing this test are passing lol. 🤞🏼
+4. Run `make test` and this will trigger a docker compose file that will spin up a test DB + mgirations and then run all the needed tests. By the time of writing this test are passing lol. 🤞🏼
 
 
 ## HTTP Endpoints

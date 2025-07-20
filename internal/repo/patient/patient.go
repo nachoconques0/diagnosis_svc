@@ -36,7 +36,7 @@ func (r *Repository) Find(
 ) ([]patient.Entity, error) {
 	var results []patient.Entity
 
-	tx := r.db
+	tx := r.db.WithContext(ctx)
 	if filters.PatientName != "" {
 		tx = tx.Where("patient.name = ?", filters.PatientName)
 	}

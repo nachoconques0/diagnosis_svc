@@ -12,8 +12,8 @@ import (
 	"go.uber.org/mock/gomock"
 
 	controller "github.com/nachoconques0/diagnosis_svc/internal/controller/patient"
-	patientEntity "github.com/nachoconques0/diagnosis_svc/internal/entity/patient"
 	"github.com/nachoconques0/diagnosis_svc/internal/mocks"
+	"github.com/nachoconques0/diagnosis_svc/internal/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -25,24 +25,34 @@ func TestCreatePatient(t *testing.T) {
 	mockService := mocks.NewMockPatientService(ctrl)
 	controller := controller.New(mockService)
 
+	patientTestName := "nachin"
+	patientTestDNI := "123123"
+	patientTestEmail := "nacho@gmail.com"
+
+	req := model.CreatePatientRequest{
+		Name:  patientTestName,
+		DNI:   patientTestDNI,
+		Email: patientTestEmail,
+	}
+
 	t.Run("success", func(t *testing.T) {
 		rec := httptest.NewRecorder()
 		c, r := gin.CreateTestContext(rec)
 
 		jsonBody, _ := json.Marshal(map[string]string{
-			"name":  "nacho",
-			"email": "jcalcagno@gmail.com",
-			"dni":   "123123",
+			"name":  patientTestName,
+			"email": patientTestEmail,
+			"dni":   patientTestDNI,
 		})
 
 		c.Request, _ = http.NewRequest(http.MethodPost, "/patients", bytes.NewBuffer(jsonBody))
 		c.Request.Header.Set("Content-Type", "application/json")
 
-		expected := &patientEntity.Entity{
-			Name: "nacho",
+		expected := &model.PatientResponse{
+			Name: patientTestName,
 		}
 		mockService.EXPECT().
-			Create(gomock.Any(), "nacho", "jcalcagno@gmail.com", "123123", gomock.Any(), gomock.Any()).
+			Create(gomock.Any(), req).
 			Return(expected, nil)
 
 		r.POST("/patients", controller.Create)
@@ -56,16 +66,16 @@ func TestCreatePatient(t *testing.T) {
 		c, r := gin.CreateTestContext(rec)
 
 		jsonBody, _ := json.Marshal(map[string]string{
-			"name":  "nacho",
-			"email": "jcalcagno@gmail.com",
-			"dni":   "123123",
+			"name":  patientTestName,
+			"email": patientTestEmail,
+			"dni":   patientTestDNI,
 		})
 
 		c.Request, _ = http.NewRequest(http.MethodPost, "/patients", bytes.NewBuffer(jsonBody))
 		c.Request.Header.Set("Content-Type", "application/json")
 
 		mockService.EXPECT().
-			Create(gomock.Any(), "nacho", "jcalcagno@gmail.com", "123123", gomock.Any(), gomock.Any()).
+			Create(gomock.Any(), req).
 			Return(nil, errors.New("unexpected error"))
 
 		r.POST("/patients", controller.Create)
@@ -75,7 +85,7 @@ func TestCreatePatient(t *testing.T) {
 	})
 }
 
-func TestFindDiagnosis(t *testing.T) {
+func TestFindPatients(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
@@ -92,9 +102,9 @@ func TestFindDiagnosis(t *testing.T) {
 
 		mockService.EXPECT().
 			Find(gomock.Any(), gomock.Any(), gomock.Any()).
-			Return([]patientEntity.Entity{{Name: "nachin"}}, nil)
+			Return([]model.PatientResponse{{Name: "nachin"}}, nil)
 
-		r.GET("/diagnosis", controller.Find)
+		r.GET("/patients", controller.Find)
 		r.ServeHTTP(rec, c.Request)
 
 		assert.Equal(t, http.StatusOK, rec.Code)

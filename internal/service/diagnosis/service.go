@@ -5,6 +5,7 @@ import (
 
 	"github.com/nachoconques0/diagnosis_svc/internal/entity/diagnosis"
 	"github.com/nachoconques0/diagnosis_svc/internal/helpers/query"
+	"github.com/nachoconques0/diagnosis_svc/internal/model"
 )
 
 type Service struct {
@@ -26,8 +27,8 @@ func New(repo repository) *Service {
 }
 
 // Create validates and stores a diagnosis
-func (s *Service) Create(ctx context.Context, patientID string, diag string, prescription *string) (*diagnosis.Entity, error) {
-	d, err := diagnosis.New(patientID, diag, prescription)
+func (s *Service) Create(ctx context.Context, req model.CreateDiagnosisRequest) (*model.DiagnosisResponse, error) {
+	d, err := diagnosis.New(req.PatientID, req.Diagnosis, req.Prescription)
 	if err != nil {
 		return nil, err
 	}
@@ -38,14 +39,32 @@ func (s *Service) Create(ctx context.Context, patientID string, diag string, pre
 	if err != nil {
 		return nil, err
 	}
-	return res, nil
+	return &model.DiagnosisResponse{
+		ID:           res.ID.String(),
+		PatientID:    res.PatientID.String(),
+		Diagnosis:    res.Diagnosis,
+		Prescription: res.Prescription,
+		CreatedAt:    res.CreatedAt,
+	}, nil
 }
 
 // Find diagnoses based on filters
-func (s *Service) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]diagnosis.Entity, error) {
+func (s *Service) Find(ctx context.Context, filters query.DiagnosisFilters, pagination query.Pagination) ([]model.DiagnosisResponse, error) {
 	res, err := s.repo.Find(ctx, filters, pagination)
 	if err != nil {
-		return []diagnosis.Entity{}, err
+		return []model.DiagnosisResponse{}, err
 	}
-	return res, nil
+	var result []model.DiagnosisResponse
+	if len(res) > 0 {
+		for _, v := range res {
+			result = append(result, model.DiagnosisResponse{
+				ID:           v.ID.String(),
+				PatientID:    v.PatientID.String(),
+				Diagnosis:    v.Diagnosis,
+				Prescription: v.Prescription,
+				CreatedAt:    v.CreatedAt,
+			})
+		}
+	}
+	return result, nil
 }
