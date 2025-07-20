@@ -1,7 +1,5 @@
-# Faceit Challenge
+# TopDoctor
 ### Made with <3 by Juan Calcagno AKA Nacho. 
-#### I love CS:GO BTW hardcode fan since 1.5 lol
-
 
 ### What I've done
 I've built a microservice that is allowing to handle patients and their diagnosis. Still too much work to be done. But it is doing what it was asked :)
