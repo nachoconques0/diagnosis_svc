@@ -13,12 +13,15 @@ import (
 	"github.com/rs/zerolog/log"
 
 	diagController "github.com/nachoconques0/diagnosis_svc/internal/controller/diagnosis"
+	patientController "github.com/nachoconques0/diagnosis_svc/internal/controller/patient"
 	userController "github.com/nachoconques0/diagnosis_svc/internal/controller/user"
 	"github.com/nachoconques0/diagnosis_svc/internal/db"
 	httpServer "github.com/nachoconques0/diagnosis_svc/internal/http"
 	"github.com/nachoconques0/diagnosis_svc/internal/repo/diagnosis"
+	"github.com/nachoconques0/diagnosis_svc/internal/repo/patient"
 	"github.com/nachoconques0/diagnosis_svc/internal/repo/user"
 	diagService "github.com/nachoconques0/diagnosis_svc/internal/service/diagnosis"
+	patientService "github.com/nachoconques0/diagnosis_svc/internal/service/patient"
 	userService "github.com/nachoconques0/diagnosis_svc/internal/service/user"
 )
 
@@ -54,15 +57,18 @@ func New(opts ...Option) error {
 	}
 
 	// Init repo with DB
+	patientRepo := patient.NewRepository(dbConn)
 	diagRepo := diagnosis.NewRepository(dbConn)
 	userRepo := user.NewRepository(dbConn)
 
 	// Service
+	patientSvc := patientService.New(patientRepo)
 	diagSvc := diagService.New(diagRepo)
 	userSvc := userService.New(userRepo)
 
 	// Controller
 	diagCtrl := diagController.New(diagSvc)
+	patientCtrl := patientController.New(patientSvc)
 	userCtrl := userController.New(userSvc, options.jwtSecret)
 
 	// HTTP Server
@@ -71,7 +77,7 @@ func New(opts ...Option) error {
 		return err
 	}
 	httpRouter := httpServer.InitHTTPRouter(httpSrv)
-	httpServer.InitRoutes(httpRouter, *userCtrl, *diagCtrl)
+	httpServer.InitRoutes(httpRouter, *userCtrl, *diagCtrl, *patientCtrl)
 
 	i := Instance{
 		timeout: 20,

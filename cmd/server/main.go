@@ -1,10 +1,9 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
 	"strconv"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/nachoconques0/diagnosis_svc/internal/app"
 	"github.com/nachoconques0/diagnosis_svc/internal/env"
@@ -13,7 +12,7 @@ import (
 func main() {
 	maxDBConn, err := strconv.Atoi(env.LoadOrPanic("DB_MAX_CONNECTIONS"))
 	if err != nil {
-		log.Fatal(context.Background(), fmt.Sprintf("could not start application: %s", err.Error()))
+		log.Fatal().Err(err).Msg("could not start application when connecting to DB")
 	}
 
 	options := []app.Option{
@@ -30,6 +29,6 @@ func main() {
 
 	err = app.New(options...)
 	if err != nil {
-		log.Fatal(context.Background(), fmt.Sprintf("could not start application: %s", err.Error()))
+		log.Fatal().Err(err).Msg("could not start application when init app")
 	}
 }

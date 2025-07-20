@@ -20,6 +20,7 @@ type repository interface {
 	) ([]diagnosis.Entity, error)
 }
 
+// New returns a new diagnosis service
 func New(repo repository) *Service {
 	return &Service{repo: repo}
 }

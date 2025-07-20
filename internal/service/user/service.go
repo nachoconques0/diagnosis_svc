@@ -14,6 +14,7 @@ type Service struct {
 	repo repository
 }
 
+// New returns a new user service
 func New(repo repository) *Service {
 	return &Service{repo: repo}
 }
