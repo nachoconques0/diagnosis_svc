@@ -81,8 +81,8 @@ func WithSSLMode(mode string) Option {
 	}
 }
 
-// WithDebug controls if queries should be logged
-func WithDebug(d bool) Option {
+// WithDBDebug controls if queries should be logged
+func WithDBDebug(d bool) Option {
 	return func(o *Options) {
 		o.Debug = d
 	}

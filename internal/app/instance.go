@@ -50,7 +50,6 @@ func New(opts ...Option) error {
 		o(&options)
 	}
 
-	// DB connection
 	dbConn, err := db.New(options.dbOptions...)
 	if err != nil {
 		return err

@@ -40,7 +40,6 @@ func (r *Repository) Find(
 	if filters.PatientName != "" {
 		tx = tx.Where("patient.name = ?", filters.PatientName)
 	}
-
 	if err := tx.
 		Limit(pagination.Limit()).
 		Offset(pagination.Offset()).

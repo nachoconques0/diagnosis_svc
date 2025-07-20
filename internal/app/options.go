@@ -84,3 +84,10 @@ func WithSSLMode(s string) Option {
 		o.appendDBOption(db.WithSSLMode(s))
 	}
 }
+
+// WithDebug controls if queries should be logged
+func WithDBDebug(d bool) Option {
+	return func(o *Options) {
+		o.appendDBOption(db.WithDBDebug(d))
+	}
+}

@@ -57,6 +57,5 @@ func (r *Repository) Find(
 		Find(&results).Error; err != nil {
 		return nil, errors.NewInternalError("could not find diagnosis: " + err.Error())
 	}
-
 	return results, nil
 }

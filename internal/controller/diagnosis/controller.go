@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -66,9 +67,8 @@ func (ctrl *Controller) Find(c *gin.Context) {
 	}
 
 	pagination := query.NewPagination(c.Query("page"), c.Query("page_size"))
-
 	res, err := ctrl.svc.Find(c.Request.Context(), query.DiagnosisFilters{
-		PatientName: patientName,
+		PatientName: strings.Trim(patientName, `"`),
 		Date:        date,
 	}, pagination)
 	if err != nil {

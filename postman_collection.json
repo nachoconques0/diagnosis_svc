@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "70bf089f-a992-43ea-b3cc-1bdef6497fc0",
+		"name": "TopDoctor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "5221820"
+	},
+	"item": [
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "Patients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hY2hvQGdtYWlsLmNvbSIsImV4cCI6MTc1MzAyNDMyOCwibmlja25hbWUiOiJuYWNobyJ9.JqYmIT_Bx2dHOlPm6WlHoGmuGHvSve85cafOvrrXFrI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8090/v1/patients"
+					},
+					"response": []
+				},
+				{
+					"name": "Patients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hY2hvQGdtYWlsLmNvbSIsImV4cCI6MTc1MzAyNDMyOCwibmlja25hbWUiOiJuYWNobyJ9.JqYmIT_Bx2dHOlPm6WlHoGmuGHvSve85cafOvrrXFrI"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"patientttttttt\",\n    \"email\": \"patieneee@gmail.com\",\n    \"dni\": \"123123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8090/v1/patients"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Diagnosis",
+			"item": [
+				{
+					"name": "Diagnosis",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hY2hvQGdtYWlsLmNvbSIsImV4cCI6MTc1MzAyNDMyOCwibmlja25hbWUiOiJuYWNobyJ9.JqYmIT_Bx2dHOlPm6WlHoGmuGHvSve85cafOvrrXFrI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8090/v1/diagnosis?page_size=10&page=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"v1",
+								"diagnosis"
+							],
+							"query": [
+								{
+									"key": "page_size",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Diagnosis",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"nacho@gmail.com\",\n    \"password\":\"testing123123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8090/v1/login"
+			},
+			"response": []
+		}
+	]
+}

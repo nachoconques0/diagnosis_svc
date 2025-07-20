@@ -25,6 +25,7 @@ func main() {
 		app.WithDBMaxConnections(maxDBConn),
 		app.WithSSLMode(env.LoadOrDefault("DB_SSL", "disable")),
 		app.WithJWTSecret(env.LoadOrPanic("JWT_SECRET")),
+		app.WithDBDebug(false),
 	}
 
 	err = app.New(options...)

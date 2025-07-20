@@ -120,7 +120,7 @@ func insertDiagnoses(ctx context.Context, tx *sql.Tx, patientID uuid.UUID) error
 	}
 
 	query := `
-	INSERT INTO top_doctor.diagnose (id, patient_id, diagnosis, prescription, created_at, updated_at)
+	INSERT INTO top_doctor.diagnosis (id, patient_id, diagnosis, prescription, created_at, updated_at)
 	VALUES ($1, $2, $3, $4, $5, $6)
 	`
 
