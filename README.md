@@ -34,6 +34,17 @@ It is available in the repo.
 4. Run `make test` and this will trigger a docker compose file that will spin up a test DB + mgirations and then run all the needed tests. By the time of writing this test are passing lol. 🤞🏼
 
 
+## For the credentiales please use this:
+- The token you get as response use it in postman in "Bearer {{token}}"
+```
+{
+    "email":"nacho@gmail.com",
+    "password":"testing123123"
+}
+```
+
+
+
 ## HTTP Endpoints
 #### Login `POST /v1/login`
 - All fields must be in payload
