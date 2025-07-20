@@ -70,7 +70,7 @@ func createToken(u user.Entity, jwtKey string) (string, error) {
 		jwt.MapClaims{
 			"nickname": u.Nickname,
 			"email":    u.Email,
-			"exp":      time.Now().Add(time.Hour * 24).Unix(),
+			"exp":      time.Now().Add(time.Minute * 15).Unix(),
 		})
 
 	tokenString, err := token.SignedString([]byte(jwtKey))

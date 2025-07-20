@@ -37,12 +37,13 @@ func (s *Service) Create(ctx context.Context, req model.CreatePatientRequest) (*
 		return nil, err
 	}
 	return &model.PatientResponse{
-		ID:      res.ID.String(),
-		Name:    res.Name,
-		DNI:     res.DNI,
-		Email:   res.Email,
-		Phone:   res.Phone,
-		Address: res.Address,
+		ID:        res.ID.String(),
+		Name:      res.Name,
+		DNI:       res.DNI,
+		Email:     res.Email,
+		Phone:     res.Phone,
+		Address:   res.Address,
+		CreatedAt: res.CreatedAt,
 	}, nil
 }
 
@@ -56,12 +57,14 @@ func (s *Service) Find(ctx context.Context, filters query.DiagnosisFilters, pagi
 	if len(res) > 0 {
 		for _, v := range res {
 			result = append(result, model.PatientResponse{
-				ID:      v.ID.String(),
-				Name:    v.Name,
-				DNI:     v.DNI,
-				Email:   v.Email,
-				Phone:   v.Phone,
-				Address: v.Address})
+				ID:        v.ID.String(),
+				Name:      v.Name,
+				DNI:       v.DNI,
+				Email:     v.Email,
+				Phone:     v.Phone,
+				Address:   v.Address,
+				CreatedAt: v.CreatedAt,
+			})
 		}
 	}
 	return result, nil

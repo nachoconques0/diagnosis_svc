@@ -3,6 +3,7 @@ package patient
 import (
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -32,22 +33,24 @@ const (
 
 // Entity holds the fields of a patient used for our internal use
 type Entity struct {
-	ID      uuid.UUID `gorm:"type:uuid;primary_key"`
-	Name    string
-	DNI     string
-	Email   string
-	Phone   *string
-	Address *string
+	ID        uuid.UUID `gorm:"type:uuid;primary_key"`
+	Name      string
+	DNI       string
+	Email     string
+	Phone     *string
+	Address   *string
+	CreatedAt time.Time
 }
 
 // New returns an instance of a Patient
 func New(name, dni, email string, phone, address *string) *Entity {
 	return &Entity{
-		Name:    strings.TrimSpace(name),
-		DNI:     strings.TrimSpace(dni),
-		Email:   strings.TrimSpace(email),
-		Phone:   phone,
-		Address: address,
+		Name:      strings.TrimSpace(name),
+		DNI:       strings.TrimSpace(dni),
+		Email:     strings.TrimSpace(email),
+		Phone:     phone,
+		Address:   address,
+		CreatedAt: time.Now(),
 	}
 }
 

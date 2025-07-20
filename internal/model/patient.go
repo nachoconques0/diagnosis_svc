@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 // CreatePatientRequest type that holds fields when creating a patient
 type CreatePatientRequest struct {
 	Name    string  `json:"name" binding:"required"`
@@ -11,10 +13,11 @@ type CreatePatientRequest struct {
 
 // PatientResponse type that holds fields when creating a response for a patient
 type PatientResponse struct {
-	ID      string  `json:"id"`
-	Name    string  `json:"name"`
-	Email   string  `json:"email"`
-	DNI     string  `json:"dni"`
-	Phone   *string `json:"phone,omitempty"`
-	Address *string `json:"address,omitempty"`
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	Email     string    `json:"email"`
+	DNI       string    `json:"dni"`
+	Phone     *string   `json:"phone,omitempty"`
+	Address   *string   `json:"address,omitempty"`
+	CreatedAt time.Time `json:"created_at"`
 }

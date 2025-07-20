@@ -22,9 +22,9 @@ It is available in the repo.
 2. `git clone` this repo
 3. Once you are inside the repo
 4. Run `docker compose up -d` this will initiate a container with a running postgres DB
-5. Run `make mod` so you download needed pkgs
 6. Run `make migration-run dir=up` this will run all needed migrations
-7. Run `make run` and if all good. Project should be running ready to get some HTTP calls and also gRPC.
+8. Run `make seed` in order to have the USER and some extra data so you can test from postman
+9. Run `make run` and if all good. Project should be running ready to get some HTTP calls
 
 
 ### You don't want to run it? But want to trust the tests? 😈
@@ -48,7 +48,7 @@ It is available in the repo.
 ##### Response 200
 ```
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hY2hvQGdtYWlsLmNvbSIsImV4cCI6MTc1MzA5MDQ4NCwibmlja25hbWUiOiJuYWNobyJ9.TPLj-qYRAV6fobVNP2dAHTSvjDfi7As-v2M6EE5GoLU"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5hY2hvQGdtYWlsLmNvbSIsImV4cCI6MTc1MzAxMjQ0MSwibmlja25hbWUiOiJuYWNobyJ9.pHNzJaJbHdPyyEnNtyf9_peXFkUDZV5Lc8cZV5DPDLk"
 }
 
 ```
@@ -57,22 +57,14 @@ It is available in the repo.
 ##### Response 200
 ```
 [
-  {
-      "ID": "c9d9ec80-3cc9-40f0-a0b6-a69ed606edbb",
-      "Name": "nachin patient",
-      "DNI": "12345678",
-      "Email": "nachinahcin@gmail.com",
-      "Phone": "123456789",
-      "Address": "barcelona"
-  },
-  {
-      "ID": "02b6c0bf-3599-4d23-8178-c078dd019017",
-      "Name": "patientttttttt",
-      "DNI": "123123",
-      "Email": "patieneee@gmail.com",
-      "Phone": null,
-      "Address": null
-  }
+    {
+        "id": "9f6248b4-7e1e-4d56-84c0-2a814a303315",
+        "name": "nachin patient",
+        "email": "nachinahcin@gmail.com",
+        "dni": "12345678",
+        "phone": "123456789",
+        "address": "barcelona"
+    }
 ]
 ```
 
@@ -90,12 +82,9 @@ It is available in the repo.
 ##### Response 200
 ```
 {
-    "ID": "02b6c0bf-3599-4d23-8178-c078dd019017",
-    "Name": "patientttttttt",
-    "DNI": "123123",
-    "Email": "patieneee@gmail.com",
-    "Phone": null,
-    "Address": null
+    "name": "patientttttttt",
+    "email": "patieneee@gmail.com",
+    "dni": "123123"
 }
 ```
 
@@ -105,25 +94,24 @@ It is available in the repo.
 ```
 [
     {
-        "ID": "a659cd01-235d-46ef-abe5-791ca7d46f49",
-        "PatientID": "c9d9ec80-3cc9-40f0-a0b6-a69ed606edbb",
-        "Diagnosis": "gripe 1",
-        "Prescription": null,
-        "CreatedAt": "2025-07-20T11:04:24.480295+02:00"
+        "id": "b2d57eef-7fc0-4fd1-bda4-24226e96e694",
+        "patient_id": "9f6248b4-7e1e-4d56-84c0-2a814a303315",
+        "diagnosis": "gripe 1",
+        "created_at": "2025-07-20T13:38:47.625962+02:00"
     },
     {
-        "ID": "b55dfe79-6e88-4f66-a845-395a58fbd86c",
-        "PatientID": "c9d9ec80-3cc9-40f0-a0b6-a69ed606edbb",
-        "Diagnosis": "gripe 2",
-        "Prescription": "antigripepuntero2",
-        "CreatedAt": "2025-07-19T11:04:24.480296+02:00"
+        "id": "281677af-6a3f-45bf-a3bc-62fbb64ac670",
+        "patient_id": "9f6248b4-7e1e-4d56-84c0-2a814a303315",
+        "diagnosis": "gripe 2",
+        "prescription": "antigripepuntero2",
+        "created_at": "2025-07-19T13:38:47.625962+02:00"
     },
     {
-        "ID": "e944000d-c44f-4fa6-83ec-cb7062650a57",
-        "PatientID": "c9d9ec80-3cc9-40f0-a0b6-a69ed606edbb",
-        "Diagnosis": "gripe 3",
-        "Prescription": "antigripepuntero3",
-        "CreatedAt": "2025-07-18T11:04:24.480328+02:00"
+        "id": "30ee9079-d7bb-4b10-97f8-32d342e7f7b5",
+        "patient_id": "9f6248b4-7e1e-4d56-84c0-2a814a303315",
+        "diagnosis": "gripe 3",
+        "prescription": "antigripepuntero3",
+        "created_at": "2025-07-18T13:38:47.625996+02:00"
     }
 ]
 ```
@@ -142,11 +130,11 @@ It is available in the repo.
 ##### Response 200
 ```
 {
-    "ID": "a850b612-8900-4f93-8340-61719e4a1f48",
-    "PatientID": "02b6c0bf-3599-4d23-8178-c078dd019017",
-    "Diagnosis": "probando desde postman",
-    "Prescription": "testeandosecondpatient",
-    "CreatedAt": "2025-07-20T12:13:17.957952395+02:00"
+    "id": "c8a11bd3-ebef-4be7-b7e8-d7e60c05ca06",
+    "patient_id": "9f6248b4-7e1e-4d56-84c0-2a814a303315",
+    "diagnosis": "probando desde postman",
+    "prescription": "testeandosecondpatient",
+    "created_at": "2025-07-20T13:42:33.288480171+02:00"
 }
 ```
 
